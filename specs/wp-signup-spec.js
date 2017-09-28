@@ -204,7 +204,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 		} );
 	} );
 
-	test.describe.only( 'Sign up for a site on a premium paid plan through main flow @parallel', function() {
+	test.describe( 'Sign up for a site on a premium paid plan through main flow @parallel', function() {
 		this.bailSuite( true );
 		let stepNum = 1;
 
