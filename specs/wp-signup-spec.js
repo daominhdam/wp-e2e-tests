@@ -40,10 +40,7 @@ const calypsoBaseURL = config.get( 'calypsoBaseURL' );
 var driver;
 var until = webdriver.until;
 
-let Eyes = require( 'eyes.selenium' ).Eyes;
-let eyes = new Eyes();
-eyes.setApiKey( config.get( 'eyesKey' ) );
-eyes.setForceFullPageScreenshot( true );
+let eyes = eyesHelper.eyesSetup( true );
 
 test.before( function() {
 	this.timeout( startBrowserTimeoutMS );
