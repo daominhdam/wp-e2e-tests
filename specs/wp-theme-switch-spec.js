@@ -11,6 +11,7 @@ import ThemePreviewPage from '../lib/pages/theme-preview-page.js';
 import ThemeDetailPage from '../lib/pages/theme-detail-page.js';
 import ThemeDialogComponent from '../lib/components/theme-dialog-component.js';
 import * as dataHelper from '../lib/data-helper';
+import * as eyesHelper from '../lib/eyes-helper';
 
 const mochaTimeOut = config.get( 'mochaTimeoutMS' );
 const startBrowserTimeoutMS = config.get( 'startBrowserTimeoutMS' );
@@ -18,6 +19,8 @@ const screenSize = driverManager.currentScreenSize();
 const host = dataHelper.getJetpackHost();
 
 var driver;
+
+let eyes = eyesHelper.eyesSetup( true );
 
 test.before( function() {
 	this.timeout( startBrowserTimeoutMS );
@@ -27,6 +30,12 @@ test.before( function() {
 test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function() {
 	this.timeout( mochaTimeOut );
 	this.bailSuite( true );
+
+	test.before( function() {
+		let testEnvironment = 'WordPress.com';
+		let testName = `Themes [${global.browserName}] [${screenSize}]`;
+		eyesHelper.eyesOpen( driver, eyes, testEnvironment, testName );
+	} );
 
 	test.describe( 'Switching Themes:', function() {
 		test.it( 'Delete Cookies and Login', function() {
@@ -38,6 +47,9 @@ test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function(
 		test.describe( 'Can switch free themes', function() {
 			test.it( 'Can select a different free theme', function() {
 				this.themesPage = new ThemesPage( driver );
+				if ( process.env.VISDIFF ) {
+					eyesHelper.eyesScreenshot( driver, eyes, 'Themes Page' );
+				}
 				if ( host === 'WPCOM' ) {
 					this.themesPage.showOnlyFreeThemes();
 				}
@@ -48,6 +60,9 @@ test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function(
 
 			test.it( 'Can see theme details page and open the live demo', function() {
 				this.themeDetailPage = new ThemeDetailPage( driver );
+				if ( process.env.VISDIFF ) {
+					eyesHelper.eyesScreenshot( driver, eyes, 'Theme Details Page' );
+				}
 				return this.themeDetailPage.openLiveDemo();
 			} );
 
@@ -65,5 +80,9 @@ test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function(
 				} );
 			} );
 		} );
+	} );
+
+	test.after( function() {
+		eyesHelper.eyesClose( eyes );
 	} );
 } );
