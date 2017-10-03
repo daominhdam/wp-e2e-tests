@@ -235,9 +235,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 				this.startPage = new StartPage( driver, { visit: true, culture: locale } );
 				this.designTypeChoicePage = new DesignTypeChoicePage( driver );
 				return this.designTypeChoicePage.displayed().then( ( displayed ) => {
-					if ( process.env.VISDIFF ) {
-						eyesHelper.eyesScreenshot( driver, eyes, 'Design Type Choice Page' );
-					}
+					eyesHelper.eyesScreenshot( driver, eyes, 'Design Type Choice Page' );
 					return assert.equal( displayed, true, 'The design type choice page is not displayed' );
 				} );
 			} );
@@ -252,9 +250,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 				test.it( 'Can see the choose a theme page as the starting page', function() {
 					this.chooseAThemePage = new ChooseAThemePage( driver );
 					return this.chooseAThemePage.displayed().then( ( displayed ) => {
-						if ( process.env.VISDIFF ) {
-							eyesHelper.eyesScreenshot( driver, eyes, 'Choose a Theme Page' );
-						}
+						eyesHelper.eyesScreenshot( driver, eyes, 'Choose a Theme Page' );
 						return assert.equal( displayed, true, 'The choose a theme start page is not displayed' );
 					} );
 				} );
@@ -269,9 +265,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 					test.it( 'Can then see the domains page ', function() {
 						this.findADomainComponent = new FindADomainComponent( driver );
 						return this.findADomainComponent.displayed().then( ( displayed ) => {
-							if ( process.env.VISDIFF ) {
-								eyesHelper.eyesScreenshot( driver, eyes, 'Domains Page' );
-							}
+							eyesHelper.eyesScreenshot( driver, eyes, 'Domains Page' );
 							return assert.equal( displayed, true, 'The choose a domain page is not displayed' );
 						} );
 					} );
@@ -284,9 +278,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 							selectedBlogAddress = actualAddress;
 						} );
 
-						if ( process.env.VISDIFF ) {
-							eyesHelper.eyesScreenshot( driver, eyes, 'Domains Page Site Address Search' );
-						}
+						eyesHelper.eyesScreenshot( driver, eyes, 'Domains Page Site Address Search' );
 						return this.findADomainComponent.selectFreeAddress();
 					} );
 
@@ -306,9 +298,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 						test.it( 'Can then see the plans page', function() {
 							this.pickAPlanPage = new PickAPlanPage( driver );
 							return this.pickAPlanPage.displayed().then( ( displayed ) => {
-								if ( process.env.VISDIFF ) {
-									eyesHelper.eyesScreenshot( driver, eyes, 'Plans Page' );
-								}
+								eyesHelper.eyesScreenshot( driver, eyes, 'Plans Page' );
 								return assert.equal( displayed, true, 'The pick a plan page is not displayed' );
 							} );
 						} );
@@ -325,9 +315,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 								this.createYourAccountPage.displayed().then( ( displayed ) => {
 									assert.equal( displayed, true, 'The create account page is not displayed' );
 								} );
-								if ( process.env.VISDIFF ) {
-									eyesHelper.eyesScreenshot( driver, eyes, 'Create Account Page' );
-								}
+								eyesHelper.eyesScreenshot( driver, eyes, 'Create Account Page' );
 								return this.createYourAccountPage.enterAccountDetailsAndSubmit( emailAddress, blogName, password );
 							} );
 
@@ -358,9 +346,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 									test.it( 'Can then see the secure payment page', function() {
 										this.securePaymentComponent = new SecurePaymentComponent( driver );
 										return this.securePaymentComponent.displayed().then( ( displayed ) => {
-											if ( process.env.VISDIFF ) {
-												eyesHelper.eyesScreenshot( driver, eyes, 'Secure Payment Page' );
-											}
+											eyesHelper.eyesScreenshot( driver, eyes, 'Secure Payment Page' );
 											return assert.equal( displayed, true, 'The secure payment page is not displayed' );
 										} );
 									} );
@@ -377,9 +363,7 @@ testDescribe( `[${host}] Sign Up  (${screenSize}, ${locale})`, function() {
 										test.it( 'Can see the secure check out thank you page', function() {
 											this.CheckOutThankyouPage = new CheckOutThankyouPage( driver );
 											return this.CheckOutThankyouPage.displayed().then( ( displayed ) => {
-												if ( process.env.VISDIFF ) {
-													eyesHelper.eyesScreenshot( driver, eyes, 'Checkout Thank You Page' );
-												}
+												eyesHelper.eyesScreenshot( driver, eyes, 'Checkout Thank You Page' );
 												return assert.equal( displayed, true, 'The checkout thank you page is not displayed' );
 											} );
 										} );

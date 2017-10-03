@@ -47,9 +47,7 @@ test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function(
 		test.describe( 'Can switch free themes', function() {
 			test.it( 'Can select a different free theme', function() {
 				this.themesPage = new ThemesPage( driver );
-				if ( process.env.VISDIFF ) {
-					eyesHelper.eyesScreenshot( driver, eyes, 'Themes Page' );
-				}
+				eyesHelper.eyesScreenshot( driver, eyes, 'Themes Page' );
 				if ( host === 'WPCOM' ) {
 					this.themesPage.showOnlyFreeThemes();
 				}
@@ -60,9 +58,7 @@ test.describe( `[${host}] Themes: (${screenSize}) @parallel @jetpack`, function(
 
 			test.it( 'Can see theme details page and open the live demo', function() {
 				this.themeDetailPage = new ThemeDetailPage( driver );
-				if ( process.env.VISDIFF ) {
-					eyesHelper.eyesScreenshot( driver, eyes, 'Theme Details Page' );
-				}
+				eyesHelper.eyesScreenshot( driver, eyes, 'Theme Details Page' );
 				return this.themeDetailPage.openLiveDemo();
 			} );
 
