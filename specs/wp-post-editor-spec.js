@@ -20,6 +20,7 @@ import * as driverManager from '../lib/driver-manager';
 import * as mediaHelper from '../lib/media-helper';
 import * as dataHelper from '../lib/data-helper';
 import * as slackNotifier from '../lib/slack-notifier';
+import * as eyesHelper from '../lib/eyes-helper.js';
 
 const mochaTimeOut = config.get( 'mochaTimeoutMS' );
 const startBrowserTimeoutMS = config.get( 'startBrowserTimeoutMS' );
@@ -29,9 +30,15 @@ const httpsHost = config.get( 'httpsHosts' ).indexOf( host ) !== -1;
 
 let driver;
 
+let eyes = eyesHelper.eyesSetup( true );
+
 test.before( function() {
 	this.timeout( startBrowserTimeoutMS );
 	driver = driverManager.startBrowser();
+
+	let testEnvironment = 'WordPress.com';
+	let testName = `Blog Posts [${global.browserName}] [${screenSize}]`;
+	eyesHelper.eyesOpen( driver, eyes, testEnvironment, testName );
 } );
 
 test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
@@ -76,6 +83,29 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 						assert.equal( errorShown, false, 'There is an error shown on the editor page!' );
 					} );
 				} );
+
+				if ( process.env.VISDIFF ) {
+					test.it( 'Open all sidebar sections for screenshot', function() {
+						let postEditorSidebarComponent = new PostEditorSidebarComponent( driver );
+						postEditorSidebarComponent.expandStatusSection();
+						postEditorSidebarComponent.expandCategoriesAndTags();
+						postEditorSidebarComponent.expandFeaturedImage();
+						postEditorSidebarComponent.expandSharingSection();
+						postEditorSidebarComponent.expandPostFormat();
+						postEditorSidebarComponent.expandMoreOptions();
+						eyesHelper.eyesScreenshot( driver, eyes, 'Post Editor - New Post' );
+					} );
+
+					test.it( 'Close all sidebar sections', function() {
+						let postEditorSidebarComponent = new PostEditorSidebarComponent( driver );
+						postEditorSidebarComponent.closeStatusSection();
+						postEditorSidebarComponent.closeCategoriesAndTags();
+						postEditorSidebarComponent.closeFeaturedImage();
+						postEditorSidebarComponent.closeSharingSection();
+						postEditorSidebarComponent.closePostFormat();
+						postEditorSidebarComponent.closeMoreOptions();
+					} );
+				}
 
 				test.describe( 'Categories and Tags', function() {
 					test.it( 'Expand Categories and Tags', function() {
@@ -239,7 +269,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 							} else { // Jetpack tests
 								test.it( 'Can publish content', function() {
 									let postEditorToolbarComponent = new PostEditorToolbarComponent( driver );
-									postEditorToolbarComponent.publishThePost(  { useConfirmStep: true } );
+									postEditorToolbarComponent.publishThePost( { useConfirmStep: true } );
 								} );
 							}
 
@@ -831,6 +861,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 					this.sidebarComponent.selectPosts();
 					this.postsPage = new PostsPage( driver );
 					this.postsPage.waitForPosts();
+					eyesHelper.eyesScreenshot( driver, eyes, 'Blog Posts List' );
 				} );
 
 				test.it( 'Can see and edit our new post', function() {
@@ -927,7 +958,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 		} );
 	} );
 
-	test.describe( 'Insert a payment button: @parallel', function() {
+	test.describe.only( 'Insert a payment button: @parallel', function() {
 		this.bailSuite( true );
 
 		test.it( 'Delete Cookies and Local Storage', function() {
@@ -945,7 +976,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 			test.it( 'Can insert the payment button', function() {
 				this.editorPage = new EditorPage( driver );
 				this.editorPage.enterTitle( originalBlogPostTitle );
-				this.editorPage.insertPaymentButton();
+				this.editorPage.insertPaymentButton( eyes );
 
 				return this.editorPage.errorDisplayed().then( ( errorShown ) => {
 					return assert.equal( errorShown, false, 'There is an error shown on the editor page!' );
@@ -1027,4 +1058,8 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 			} );
 		} );
 	} );
+} );
+
+test.after( function() {
+	eyesHelper.eyesClose( eyes );
 } );
