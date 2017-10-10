@@ -45,7 +45,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 	this.bailSuite( true );
 	this.timeout( mochaTimeOut );
 
-	test.describe( 'Public Posts: @parallel @jetpack', function() {
+	test.describe( 'Public Posts: @parallel @jetpack @visdiff', function() {
 		let fileDetails;
 
 		test.before( function() {
@@ -820,7 +820,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 		} );
 	} );
 
-	test.describe( 'Edit a Post: @parallel @jetpack', function() {
+	test.describe( 'Edit a Post: @parallel @jetpack @visdiff', function() {
 		this.bailSuite( true );
 
 		test.it( 'Delete Cookies and Local Storage', function() {
@@ -958,7 +958,7 @@ test.describe( `[${host}] Editor: Posts (${screenSize})`, function() {
 		} );
 	} );
 
-	test.describe( 'Insert a payment button: @parallel', function() {
+	test.describe( 'Insert a payment button: @parallel @visdiff', function() {
 		this.bailSuite( true );
 
 		test.it( 'Delete Cookies and Local Storage', function() {
